@@ -13,14 +13,14 @@ class TableViewController: UITableViewController {
     @IBOutlet var tvListView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.leftBarButtonItem = self.editButtonItem
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         tvListView.reloadData()
     }
@@ -39,10 +39,12 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath)
+        let dDay: String = "D-7"
 
+        
         cell.textLabel?.text = items[(indexPath as NSIndexPath).row]
+        cell.detailTextLabel?.text = dDay
         // Configure the cell...
-
         return cell
     }
     

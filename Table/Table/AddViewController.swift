@@ -60,7 +60,7 @@ class AddViewController: UIViewController {
            let formatter = DateFormatter()
            formatter.dateStyle = .medium
            formatter.timeStyle = .none
-
+           formatter.locale = Locale(identifier: "ko")
            textStartDate.text = formatter.string(from: datePicker.date)
            self.view.endEditing(true)
     }
@@ -90,7 +90,7 @@ class AddViewController: UIViewController {
            let formatter = DateFormatter()
            formatter.dateStyle = .medium
            formatter.timeStyle = .none
-
+           formatter.locale = Locale(identifier: "ko")
            textFinishDate.text = formatter.string(from: datePicker.date)
            self.view.endEditing(true)
     }
