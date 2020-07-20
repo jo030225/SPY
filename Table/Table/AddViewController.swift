@@ -12,7 +12,9 @@ var items: [String] = []
 var startDate: [String] = []
 var finishDate: [String] = []
 var price: [String] = []
-
+var dDay: [String] = []
+var datesArray: [String] = []
+var dDayCount: Int = -1
 
 class AddViewController: UIViewController {
 
@@ -60,6 +62,7 @@ class AddViewController: UIViewController {
            let formatter = DateFormatter()
            formatter.dateStyle = .medium
            formatter.timeStyle = .none
+           formatter.dateFormat = "yyyy. MM. dd."
            formatter.locale = Locale(identifier: "ko")
            textStartDate.text = formatter.string(from: datePicker.date)
            self.view.endEditing(true)
@@ -85,15 +88,81 @@ class AddViewController: UIViewController {
 
         datePicker.datePickerMode = .date
     }
-
+    
     @objc func doneSecondPressed() {
-           let formatter = DateFormatter()
-           formatter.dateStyle = .medium
-           formatter.timeStyle = .none
-           formatter.locale = Locale(identifier: "ko")
-           textFinishDate.text = formatter.string(from: datePicker.date)
-           self.view.endEditing(true)
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .none
+            formatter.dateFormat = "yyyy. MM. dd."
+            formatter.locale = Locale(identifier: "ko")
+            textFinishDate.text = formatter.string(from: datePicker.date)
+            self.view.endEditing(true)
     }
+    
+    func done() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy. MM. dd."
+        let date = Date()
+        let nowDateStr = formatter.string(from: date)
+        var dates: String = ""
+        
+        // 만료 년
+        var firstIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 0)
+        var lastIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 4)
+        var year = String(finishDate[dDayCount][firstIndex..<lastIndex])
+
+        // 현재 년
+        firstIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 0)
+        lastIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 4)
+        var currentYear = String(nowDateStr[firstIndex..<lastIndex])
+
+        // 만료 월
+        firstIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 6)
+        lastIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 8)
+        var month = String(finishDate[dDayCount][firstIndex..<lastIndex])
+            
+
+        // 현재 월
+        firstIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 6)
+        lastIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 8)
+        var currentMonth = String(nowDateStr[firstIndex..<lastIndex])
+
+        // 만료 일
+        firstIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 10)
+        lastIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 12)
+        var day = String(finishDate[dDayCount][firstIndex..<lastIndex])
+
+        // 현재 일
+        firstIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 10)
+        lastIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 12)
+        let currentDay = String(nowDateStr[firstIndex..<lastIndex])
+            
+        dates = String(totalDay(y: Int(year)!, m: Int(month)!, d: Int(day)!) - totalDay(y: Int(currentYear)!, m: Int(currentMonth)!, d: Int(currentDay)!))
+        datesArray.append(dates)
+        dDay.append(datesArray[dDayCount])
+        
+    }
+    
+    func totalDay(y: Int, m: Int, d: Int) -> Int {
+        var monthArray: [Int] = [31,28,31,30,31,30,31,31,30,31,30,31]
+        var total: Int = 0
+        
+        total = ((y - 1)*365) + ((y - 1)/4) - ((y - 1)/100) + ((y - 1)/400)
+        
+        
+        if(((y % 4 == 0) && (y % 100 == 0)) || (y % 400 == 0)){
+            monthArray[1] = monthArray[1] + 1
+        }
+        for i in stride(from: 0, to: m - 1, by: 1) {
+            total += monthArray[i]
+        }
+        total += d
+        
+        
+        return total
+    }
+
+    
     
     @IBAction func btnAddDone(_ sender: UIBarButtonItem) {
         items.append(textName.text!)
@@ -104,13 +173,16 @@ class AddViewController: UIViewController {
         
         finishDate.append(textFinishDate.text!)
         textFinishDate.text = ""
+        dDayCount += 1
         
         price.append(textPrice.text!)
         textPrice.text = ""
         
+        done()
+        
         _ = navigationController?.popViewController(animated: true)
     }
-    
+
 
     /*
     // MARK: - Navigation
