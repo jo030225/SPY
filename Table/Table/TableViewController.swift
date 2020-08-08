@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class TableViewController: UITableViewController {
 
     @IBOutlet var tvListView: UITableView!
@@ -39,14 +41,14 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath)
-        let dDay: String = "D-7"
-
-        
+    
         cell.textLabel?.text = items[(indexPath as NSIndexPath).row]
-        cell.detailTextLabel?.text = dDay
-        // Configure the cell...
+        cell.detailTextLabel?.text = "D - " + dDay[(indexPath as NSIndexPath).row]
+        // Configure the cell..
         return cell
     }
+    
+    
     
     /*
     // Override to support conditional editing of the table view.
