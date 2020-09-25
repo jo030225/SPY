@@ -34,56 +34,56 @@ class AddViewController: UIViewController{
         
         createFirstDatePicker()
         createSecondDatePicker()
-
+        
         // Do any additional setup after loading the view.
     }
     
     func createFirstDatePicker() {
         textStartDate.textAlignment = .center
-
+        
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
-
+        
         let doneFirstBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(doneFirstPressed))
-    
+        
         toolBar.setItems([doneFirstBtn], animated: true)
-       
-
-        textStartDate.inputAccessoryView = toolBar
-      
+        
+        
+        textStartDate.inputAccessoryView = tabBar
+        
         textStartDate.inputView = datePicker
         
         datePicker.datePickerMode = .date
     }
     
     @objc func doneFirstPressed() {
-           let formatter = DateFormatter()
-           formatter.dateStyle = .medium
-           formatter.timeStyle = .none
-            formatter.dateFormat = "yyyy. MM. dd."
-            formatter.locale = Locale(identifier: "ko")
-           textStartDate.text = formatter.string(from: datePicker.date)
-           self.view.endEditing(true)
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        formatter.dateFormat = "yyyy. MM. dd."
+        formatter.locale = Locale(identifier: "ko")
+        textStartDate.text = formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
     }
     
     func createSecondDatePicker() {
         
         textFinishDate.textAlignment = .center
-
+        
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         
         let doneSecondBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(doneSecondPressed))
-       
+        
         toolBar.setItems([doneSecondBtn], animated: true)
-       
+        
         textFinishDate.inputAccessoryView = toolBar
         textStartDate.inputView = datePicker
         textFinishDate.inputView = datePicker
-
+        
         datePicker.datePickerMode = .date
     }
-
+    
     @objc func doneSecondPressed() {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -105,33 +105,33 @@ class AddViewController: UIViewController{
         var firstIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 0)
         var lastIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 4)
         var year = String(finishDate[dDayCount][firstIndex..<lastIndex])
-
+        
         // 현재 년
         firstIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 0)
         lastIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 4)
         var currentYear = String(nowDateStr[firstIndex..<lastIndex])
-
+        
         // 만료 월
         firstIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 6)
         lastIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 8)
         var month = String(finishDate[dDayCount][firstIndex..<lastIndex])
-            
-
+        
+        
         // 현재 월
         firstIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 6)
         lastIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 8)
         var currentMonth = String(nowDateStr[firstIndex..<lastIndex])
-
+        
         // 만료 일
         firstIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 10)
         lastIndex = finishDate[dDayCount].index(finishDate[dDayCount].startIndex, offsetBy: 12)
         var day = String(finishDate[dDayCount][firstIndex..<lastIndex])
-
+        
         // 현재 일
         firstIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 10)
         lastIndex = nowDateStr.index(nowDateStr.startIndex, offsetBy: 12)
         let currentDay = String(nowDateStr[firstIndex..<lastIndex])
-            
+        
         dates = String(totalDay(y: Int(year)!, m: Int(month)!, d: Int(day)!) - totalDay(y: Int(currentYear)!, m: Int(currentMonth)!, d: Int(currentDay)!))
         datesArray.append(dates)
         dDay.append(datesArray[dDayCount])
@@ -185,15 +185,15 @@ class AddViewController: UIViewController{
         
         _ = navigationController?.popViewController(animated: true)
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
